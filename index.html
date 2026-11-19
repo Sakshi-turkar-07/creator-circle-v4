@@ -2070,7 +2070,7 @@ a{color:#044123;text-decoration:none}a:hover{color:#00271A}
       <div class="cr-phone" style="position:absolute;left:50%;top:50%;width:46%;aspect-ratio:9/19;transform:translate(-50%,-50%);border-radius:clamp(22px,2.6cqw,36px);background:var(--color-black-coffee);padding:clamp(5px,.6cqw,8px);z-index:2;box-shadow:0 30px 44px -22px rgba(4,65,35,.45),0 12px 20px -12px rgba(4,65,35,.3)">
         <div style="position:relative;width:100%;height:100%;border-radius:clamp(17px,2cqw,28px);overflow:hidden;background:var(--color-almond-milk)">
           <sc-if value="{{ hasMp4 }}" hint-placeholder-val="{{ false }}">
-            <video ref="{{ vidRef }}" src="{{ reelSrc }}" poster="phone-video.jpg" preload="metadata" playsInline="{{ true }}" onClick="{{ toggleReel }}" onPlay="{{ onReelPlay }}" onPause="{{ onReelStop }}" onEnded="{{ onReelStop }}" aria-label="A FirstClub creator reel" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer"></video>
+            <video ref="{{ vidRef }}" src="{{ reelSrc }}" poster="phone-video.jpg" preload="metadata" muted="{{ true }}" playsInline="{{ true }}" onClick="{{ toggleReel }}" onPlay="{{ onReelPlay }}" onPause="{{ onReelStop }}" onEnded="{{ onReelStop }}" aria-label="A FirstClub creator reel" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:pointer"></video>
             <button onClick="{{ toggleReel }}" aria-label="{{ reelLabel }}" style="position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px 0 0 -28px;border:0;border-radius:28px;background:var(--color-pure-white);color:var(--color-avocado-skin);display:grid;place-items:center;cursor:pointer;opacity:{{ reelBtnOp }};pointer-events:{{ reelBtnPe }}"><x-import component-from-global-scope="PlatterDesignSystemV2_81038f.Icon" name="play_arrow" filled="{{ true }}" size="{{ 30 }}" hint-size="30px,30px"></x-import></button>
           </sc-if>
           <sc-if value="{{ noMp4 }}" hint-placeholder-val="{{ true }}">
@@ -2622,7 +2622,7 @@ class Component extends DCLogic {
     const P = this.props, heroVid = mob ? (P.heroVideoMobile || P.heroVideo || 'hero_video.mp4') : (P.heroVideo || 'hero_video.mp4');
     const ring = i => ['var(--color-chili-tint)', 'var(--color-avocado-whip)', 'var(--color-turmeric-tint)'][i % 3];
     const pos = (n, off, size) => Array.from({ length: n }, (_, i) => { const a = (off + i * 360 / n) * Math.PI / 180; return { x: (50 + 50 * Math.cos(a)) + '%', y: (50 + 50 * Math.sin(a)) + '%', s: size, src: this.face(i + (size === '1' ? 0 : 0)), ring: ring(i) }; });
-    const outer = pos(8, -70, mob ? '38px' : '56px').map((a, i) => ({ ...a, src: this.face(i) }));
+    const outer = pos(8, -70, mob ? '30px' : '42px').map((a, i) => ({ ...a, src: this.face(i) }));
     const inner = pos(4, 20, mob ? '30px' : '42px').map((a, i) => ({ ...a, src: this.face(i + 8), ring: ring(i + 1) }));
     const JS = [['01', 'Apply', 'Sign up for Creator Circle and get approved.', this.stepArt(0)], ['02', 'Create', 'Get your unique code, place your FirstClub order, and create content your way.', this.stepArt(1)], ['03', 'Publish', 'Submit your content for approval. Once approved, share it with your audience.', this.stepArt(2)], ['04', 'Earn', 'Earn commission for every order placed using your code.', this.stepArt(3)]];
     const k = Math.min(3, Math.round((this.state.jp || 0) * 3));
@@ -2735,7 +2735,7 @@ class Component extends DCLogic {
       heroStats: [{ v: '1500+', l: 'Creators already in' }, { v: '500+', l: 'Followers to apply' }, { v: 'Every order', l: 'On your code earns commission' }],
       applyNotes: [{ icon: 'edit_note', s: '2 min to apply', h: 'Apply in two minutes', t: 'Tell us about you and your channels.' }, { icon: 'mark_email_read', s: 'Reply by email', h: 'Hear back by email', t: 'We review every application and reply personally.' }, { icon: 'redeem', s: 'Free hamper', h: 'Get your first hamper', t: 'Once approved, good groceries arrive at your door.' }].map(x => ({ ...x, pic: this.pIcon(x.icon === 'redeem' ? 'bag' : x.icon) })),
       reelSrc: this.props.reelVideo || 'phone-video.mp4',
-      hasMp4: true, noMp4: false, reelBtnOp: this.state.reelPlaying ? 0 : 1, reelBtnPe: this.state.reelPlaying ? 'none' : 'auto', reelLabel: this.state.reelPlaying ? 'Pause video' : 'Play video', onReelPlay: () => this.setState({ reelPlaying: true }), onReelStop: () => this.setState({ reelPlaying: false }), toggleReel: () => { const v = this.vid; if (!v) return; if (v.paused) { v.muted = false; v.play().catch(() => {}); } else { v.pause(); } },
+      hasMp4: true, noMp4: false, reelBtnOp: this.state.reelPlaying ? 0 : 1, reelBtnPe: this.state.reelPlaying ? 'none' : 'auto', reelLabel: this.state.reelPlaying ? 'Pause video' : 'Play video', onReelPlay: () => this.setState({ reelPlaying: true }), onReelStop: () => this.setState({ reelPlaying: false }), toggleReel: () => { const v = this.vid; if (!v) return; if (v.paused) { v.muted = true; v.play().catch(() => {}); } else { v.pause(); } },
       soundOn: !!this.state.soundOn,
       muteIcon: this.state.soundOn ? 'volume_up' : 'volume_off',
       muteLabel: this.state.soundOn ? 'Mute video' : 'Unmute video',
